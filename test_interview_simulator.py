@@ -1,19 +1,19 @@
 from backend.app.services.interview_simulator import generar_preguntas
 
-# Perfil profesional del candidato
-perfil = "Desarrollador Backend"
 
-# Generar preguntas
-resultado = generar_preguntas(perfil)
+def test_generar_preguntas_backend():
+    # Perfil profesional del candidato
+    perfil = "Desarrollador Backend"
 
-# Mostrar resultados
-print("SIMULADOR DE ENTREVISTAS - TALENTBOT")
-print("------------------------------------")
-print("Perfil:", resultado["perfil"])
-print("Total de preguntas:", resultado.get("total_preguntas", 0))
-print("Estado:", resultado["estado"])
+    # Ejecutar el simulador
+    resultado = generar_preguntas(perfil)
 
-print("\nPREGUNTAS DE ENTREVISTA:")
-
-for numero, pregunta in enumerate(resultado["preguntas"], start=1):
-    print(f"{numero}. {pregunta}")
+    # Verificar los resultados
+    assert resultado["perfil"] == perfil
+    assert resultado["estado"] is not None
+    assert resultado["total_preguntas"] == 5
+    assert len(resultado["preguntas"]) == 5
+    assert all(
+        isinstance(pregunta, str) and pregunta.strip()
+        for pregunta in resultado["preguntas"]
+    )

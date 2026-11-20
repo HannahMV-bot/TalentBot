@@ -1,31 +1,44 @@
 import pymupdf as fitz
+import pytest
 
-from app.services.cv_reader import extraer_texto_pdf
+from backend.app.services.cv_reader import extraer_texto_pdf
 
 
-# Crear un PDF de prueba
-documento = fitz.open()
+def test_extraer_texto_pdf_correctamente():
+    # Crear un PDF de prueba
+    documento = fitz.open()
+    pagina = documento.new_page()
 
-pagina = documento.new_page()
+    pagina.insert_text(
+        (72, 72),
+        "Nombre: Ana Martinez\n"
+        "Profesion: Desarrolladora de software\n"
+        "Habilidades: Python, SQL, JavaScript\n"
+        "Experiencia: 2 anos"
+    )
 
-pagina.insert_text(
-    (72, 72),
-    "Nombre: Ana Martinez\n"
-    "Profesion: Desarrolladora de software\n"
-    "Habilidades: Python, SQL, JavaScript\n"
-    "Experiencia: 2 anos"
-)
+    # Convertir el documento a bytes
+    contenido_pdf = documento.tobytes()
+    documento.close()
 
-# Convertir el documento a bytes
-contenido_pdf = documento.tobytes()
+    # Extraer el texto
+    texto = extraer_texto_pdf(contenido_pdf)
 
-documento.close()
+    # Verificar que el texto se haya extraído
+    assert "Ana Martinez" in texto
+    assert "Python" in texto
+    assert "SQL" in texto
+    assert "JavaScript" in texto
 
-# Utilizar nuestro lector de TalentBot
-texto = extraer_texto_pdf(contenido_pdf)
 
-# Mostrar los resultados
-print("===== RESULTADO DEL ANALISIS =====")
-print(texto)
-print("==================================")
-print("Prueba completada correctamente.")
+def test_rechazar_pdf_sin_texto():
+    # Crear un PDF sin contenido textual
+    documento = fitz.open()
+    documento.new_page()
+
+    contenido_pdf = documento.tobytes()
+    documento.close()
+
+    # Verificar que se genere el error esperado
+    with pytest.raises(ValueError, match="No fue posible leer el PDF"):
+        extraer_texto_pdf(contenido_pdf)

@@ -1,32 +1,20 @@
 from backend.app.database.connection import SessionLocal
-
-from backend.app.services.user_service import (
-    iniciar_sesion
-)
+from backend.app.services.user_service import iniciar_sesion
 
 
-# ==========================================
-# PRUEBA DEL INICIO DE SESIÓN
-# ==========================================
+def test_iniciar_sesion_credenciales_incorrectas():
+    db = SessionLocal()
 
-db = SessionLocal()
+    try:
+        # Intentar iniciar sesión con un correo inexistente
+        usuario = iniciar_sesion(
+            db=db,
+            correo="correo_inexistente@talentbot.com",
+            contrasena="ClaveIncorrecta123*"
+        )
 
-try:
-    correo = "prueba@talentbot.com"
-    contrasena = "TalentBot123*"
+        # No debe permitir el acceso
+        assert usuario is None
 
-    # Intentar iniciar sesión
-    usuario = iniciar_sesion(
-        db=db,
-        correo=correo,
-        contrasena=contrasena
-    )
-
-    if usuario:
-        print("Inicio de sesión exitoso.")
-        print("Bienvenido:", usuario.nombres, usuario.apellidos)
-    else:
-        print("Correo o contraseña incorrectos.")
-
-finally:
-    db.close()
+    finally:
+        db.close()

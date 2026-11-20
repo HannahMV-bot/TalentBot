@@ -1,23 +1,22 @@
 from backend.app.services.answer_evaluator import evaluar_respuesta
 
-# Pregunta de entrevista
-pregunta = "¿Qué es una API REST y para qué se utiliza?"
 
-# Respuesta simulada del candidato
-respuesta = (
-    "Una API REST permite la comunicación entre aplicaciones "
-    "mediante solicitudes HTTP entre un cliente y un servidor."
-)
+def test_evaluar_respuesta_api_rest():
+    # Pregunta de entrevista
+    pregunta = "¿Qué es una API REST y para qué se utiliza?"
 
-# Evaluar respuesta
-resultado = evaluar_respuesta(pregunta, respuesta)
+    # Respuesta simulada del candidato
+    respuesta = (
+        "Una API REST permite la comunicación entre aplicaciones "
+        "mediante solicitudes HTTP entre un cliente y un servidor."
+    )
 
-# Mostrar resultados
-print("EVALUACIÓN DE ENTREVISTA - TALENTBOT")
-print("------------------------------------")
-print("Pregunta:", resultado["pregunta"])
-print("Respuesta:", respuesta)
-print("Puntuación:", resultado["puntuacion"], "%")
-print("Palabras clave:", resultado.get("palabras_clave_encontradas", []))
-print("Retroalimentación:", resultado["retroalimentacion"])
-print("Estado:", resultado["estado"])
+    # Ejecutar la evaluación
+    resultado = evaluar_respuesta(pregunta, respuesta)
+
+    # Verificar los resultados
+    assert resultado["pregunta"] == pregunta
+    assert resultado["puntuacion"] >= 0
+    assert resultado["puntuacion"] <= 100
+    assert isinstance(resultado["retroalimentacion"], str)
+    assert resultado["estado"] is not None
