@@ -1,32 +1,27 @@
+# Requisitos de Python
+# Recomendado: Python 3.10 o superior (probado en Python 3.12)
 
-# API y servidor
-fastapi
-uvicorn[standard]
-python-multipart
+# Bot de Telegram (interfaz principal - NOVA AI)
+python-telegram-bot>=22.0
 
-# Machine Learning y procesamiento de datos
-scikit-learn
-pandas
-numpy
+# Backend/API secundaria (FastAPI)
+fastapi>=0.110.0
+uvicorn[standard]>=0.27.0
+python-multipart>=0.0.9
 
-# Procesamiento del lenguaje natural
-spacy
+# Base de datos y modelos
+SQLAlchemy>=2.0.0
 
-# Lectura de hojas de vida PDF
-PyMuPDF
-
-# Integración con Telegram
-python-telegram-bot
-
-# Base de datos
-SQLAlchemy
+# Procesamiento de hojas de vida (PDF)
+PyMuPDF>=1.24.0
 
 # Seguridad y autenticación
-pwdlib[argon2]
-python-jose[cryptography]
+pwdlib[argon2]>=0.2.0
+python-jose[cryptography]>=3.3.0
 
-# Variables de entorno
-python-dotenv
+# Validación y configuración
+email-validator>=2.1.0
+python-dotenv>=1.0.0
 
-# Validación de correos electrónicos
-email-validator
+# Pruebas automatizadas
+pytest>=8.0.0

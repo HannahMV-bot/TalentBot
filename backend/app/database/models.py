@@ -1,13 +1,14 @@
 from sqlalchemy import (
     Column,
     Integer,
+    BigInteger,
     String,
     Text,
     Float,
     DateTime,
     ForeignKey
 )
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 from datetime import datetime
 
 from backend.app.database.connection import Base
@@ -150,7 +151,8 @@ class Entrevista(Base):
 
     respuestas = relationship(
         "RespuestaEntrevista",
-        back_populates="entrevista"
+        back_populates="entrevista",
+        order_by="RespuestaEntrevista.id",
     )
 
 
@@ -216,4 +218,69 @@ class RecomendacionLaboral(Base):
     oferta = relationship(
         "OfertaLaboral",
         back_populates="recomendaciones"
+    )
+
+
+# ==========================================
+# MODELO DE RECUPERACIÓN DE CONTRASEÑA
+# ==========================================
+
+class RecuperacionContrasena(Base):
+    __tablename__ = "recuperaciones_contrasena"
+
+    id = Column(Integer, primary_key=True, index=True)
+
+    id_usuario = Column(
+        Integer,
+        ForeignKey("usuarios.id"),
+        nullable=False
+    )
+
+    codigo_hash = Column(String(255), nullable=False)
+
+    fecha_expiracion = Column(
+        DateTime,
+        nullable=False
+    )
+
+    utilizado = Column(
+        Integer,
+        default=0,
+        nullable=False
+    )
+
+    intentos = Column(
+        Integer,
+        default=0,
+        nullable=False
+    )
+
+    fecha_creacion = Column(
+        DateTime,
+        default=datetime.utcnow
+    )
+
+    usuario = relationship("Usuario")
+
+
+# ==========================================
+# MODELO DE CUENTAS DE TELEGRAM
+# ==========================================
+
+class CuentaTelegram(Base):
+    __tablename__ = "cuentas_telegram"
+
+    id = Column(Integer, primary_key=True, index=True)
+    telegram_id = Column(BigInteger, unique=True, nullable=False, index=True)
+    id_usuario = Column(
+        Integer,
+        ForeignKey("usuarios.id"),
+        nullable=False,
+        unique=True
+    )
+    fecha_vinculacion = Column(DateTime, default=datetime.utcnow)
+
+    usuario = relationship(
+        "Usuario",
+        backref=backref("cuenta_telegram", uselist=False)
     )

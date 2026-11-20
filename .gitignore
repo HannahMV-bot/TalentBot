@@ -1,28 +1,58 @@
 # Entornos virtuales
 .venv/
 venv/
+ENV/
+env/
 
 # Variables de entorno y secretos
 .env
 .env.*
+!.env.example
 
 # Archivos de Python
 __pycache__/
 *.py[cod]
+*$py.class
 
-# Base de datos local
-*.db
-*.sqlite3
-
-# Configuración de editores
-.vscode/
-.idea/
-
-# Archivos temporales
-*.log
-.DS_Store
-
-# Archivos de pruebas
+# Caches y artefactos de pruebas
 .pytest_cache/
 .coverage
+.coverage.*
 htmlcov/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+
+# Bases de datos locales y archivos SQLite
+*.db
+*.sqlite
+*.sqlite3
+talentbot.db
+
+# Archivos temporales y logs
+*.log
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+
+# Archivos de configuración local / editores / sistema
+.vscode/
+.idea/
+*.code-workspace
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Artefactos de distribución (si se generan)
+build/
+dist/
+*.egg-info/
+
+# Archivos temporales de documentos subidos/procesados (si se generan)
+*.pdf.tmp
+uploads/
+temp/
+tmp/
