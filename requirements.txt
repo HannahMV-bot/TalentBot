@@ -1,0 +1,32 @@
+
+# API y servidor
+fastapi
+uvicorn[standard]
+python-multipart
+
+# Machine Learning y procesamiento de datos
+scikit-learn
+pandas
+numpy
+
+# Procesamiento del lenguaje natural
+spacy
+
+# Lectura de hojas de vida PDF
+PyMuPDF
+
+# Integración con Telegram
+python-telegram-bot
+
+# Base de datos
+SQLAlchemy
+
+# Seguridad y autenticación
+pwdlib[argon2]
+python-jose[cryptography]
+
+# Variables de entorno
+python-dotenv
+
+# Validación de correos electrónicos
+email-validator
